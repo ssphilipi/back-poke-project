@@ -18,10 +18,11 @@ class TrainerResource extends JsonResource
         $user = Auth::user();
         return [
           'id' => $this->id,
-          'codigo' => $this->codigo,
-          'nome' => $this->nome,
-          'pokemon' => $this->pokemon,
-          'user' => $user->name,
+          'Trainer' => $this->nome,
+          'Pokémon' => $this->pokemon,
+          'Código' => $this->codigo,
+          'User' => $user->name,
+          'E-Mail' => $user->email,
         ];
     }
 }

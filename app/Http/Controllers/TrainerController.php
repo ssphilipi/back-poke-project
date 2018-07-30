@@ -52,7 +52,12 @@ class TrainerController extends Controller
      */
     public function show(Trainer $trainer)
     {
-        return new TrainerResource($trainer);
+        $user = Auth::user();
+        if ($trainer->user_id == $user->id)
+        {
+          return new TrainerResource($trainer);
+        }
+        else return response()->json('Você não poder ver os pokémons dos outros! >:(');
     }
 
     /**
@@ -64,19 +69,22 @@ class TrainerController extends Controller
      */
     public function update(UpdateTrainer $request, Trainer $trainer)
     {
-        if ($request->nome) {
-          $trainer->nome = $request->nome;
+        $user = Auth::user();
+        if ($trainer->user_id == $user->id)
+        {
+          if ($request->nome) {
+            $trainer->nome = $request->nome;
+          }
+          if ($request->pokemon) {
+            $trainer->pokemon = $request->pokemon;
+          }
+          if ($request->codigo) {
+            $trainer->codigo = $request->codigo;
+          }
+          $trainer->save();
+          return new TrainerResource($trainer);
         }
-        if ($request->pokemon) {
-          $trainer->pokemon = $request->pokemon;
-        }
-        if ($request->codigo) {
-          $trainer->codigo = $request->codigo;
-        }
-
-        $trainer->save();
-
-        return new TrainerResource($trainer);
+        else return response()->json('Você não poder alterar os pokémons dos outros! >:(');
     }
 
     /**
@@ -87,7 +95,12 @@ class TrainerController extends Controller
      */
     public function destroy(Trainer $trainer)
     {
-        Trainer::destroy($trainer->id);
-        return response()->json('Teinador deletado com sucesso!');
+        $user = Auth::user();
+        if ($trainer->user_id == $user->id)
+        {
+          Trainer::destroy($trainer->id);
+          return response()->json('Teinador deletado com sucesso!');
+        }
+        else return response()->json('Você não poder deletar os pokémons dos outros! >:(');
     }
 }
