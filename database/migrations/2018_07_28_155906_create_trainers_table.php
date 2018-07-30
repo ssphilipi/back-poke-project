@@ -18,8 +18,12 @@ class CreateTrainersTable extends Migration
             $table->string('nome');
             $table->string('codigo', 8)->unique();
             $table->string('pokemon');
+            $table->integer('user_id')->unsigned()->nullable();
             $table->softDeletes();
             $table->timestamps();
+        });
+        Schema::table('trainers', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

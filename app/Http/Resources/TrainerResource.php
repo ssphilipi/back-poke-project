@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TrainerResource extends JsonResource
@@ -14,11 +15,13 @@ class TrainerResource extends JsonResource
      */
     public function toArray($request)
     {
+        $user = Auth::user();
         return [
           'id' => $this->id,
           'codigo' => $this->codigo,
           'nome' => $this->nome,
           'pokemon' => $this->pokemon,
+          'user' => $user->name,
         ];
     }
 }

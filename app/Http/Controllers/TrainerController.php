@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Trainer;
 use Illuminate\Http\Request;
 use App\Http\Resources\TrainerResource as TrainerResource;
@@ -18,7 +19,8 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        return TrainerResource::collection(Trainer::all());
+        $user = Auth::user();
+        return TrainerResource::collection(Trainer::where('user_id', '=', $user->id)->get());
     }
 
     /**
@@ -30,10 +32,12 @@ class TrainerController extends Controller
     public function store(StoreTrainer $request)
     {
         $newTrainer = new Trainer;
+        $user = Auth::user();
 
         $newTrainer->nome = $request->nome;
         $newTrainer->pokemon = $request->pokemon;
         $newTrainer->codigo = $request->codigo;
+        $newTrainer->user_id = $user->id;
 
         $newTrainer->save();
 
