@@ -17,4 +17,10 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::resource('trainers','TrainerController');
+Route::post('login', 'API\PassportController@login');
+Route::post('register', 'API\PassportController@register');
+
+Route::group(['middleware' => 'auth:api'], function() {
+  Route::post('get-details', 'API\PassportController@getDetails');
+  Route::resource('trainers','TrainerController');
+});
