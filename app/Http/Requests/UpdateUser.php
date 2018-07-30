@@ -5,8 +5,9 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\User;
 
-class StoreTrainer extends FormRequest
+class UpdateUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,19 +33,19 @@ class StoreTrainer extends FormRequest
     public function rules()
     {
         return [
-            'nome' => 'required|string',
-            'pokemon' => 'required|string',
-            'codigo' => 'required|digits:8|unique:trainers,codigo'
+          'name' => 'string',
+          'email' => 'email|unique:users',
+          'pokemon' => 'string',
+          'codigo' => 'digits:8|unique:users,codigo,'.$this->user->id,
         ];
     }
 
     public function messages()
     {
       return [
-        'nome.required' => 'É necessário fornecer um nome.',
-        'nome.alpha' => 'O nome deve consistir apenas de caracteres alfabéticos.',
-        'pokemon.required' => 'É necessário fornecer um pokémon inicial.',
-        'codigo.required' => 'É necessário fornecer um código de identificação.',
+        'name.alpha' => 'O nome deve consistir apenas de caracteres alfabéticos.',
+        'email.email' => 'O e-mail não está no formato correto',
+        'email.unique:users' => 'O e-mail já foi cadastrado',
         'codigo.digits' => 'O código deve possuir 8 caracteres numéricos.',
         'codigo.unique' => 'Este código já existe.',
       ];

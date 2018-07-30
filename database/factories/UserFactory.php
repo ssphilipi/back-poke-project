@@ -7,5 +7,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->email,
         'password' => bcrypt('123456'),
+        'pokemon' => $faker->name,
+        'codigo' => rand(10000000, 99999999),
     ];
 });
