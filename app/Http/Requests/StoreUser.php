@@ -41,6 +41,7 @@ class StoreUser extends FormRequest
         'password.required' => 'É necessário entrar com uma senha.',
         'c_password.required' => 'Por favor confirme sua senha.',
         'c_password.same:password' => 'As senhas não batem.',
+        'pokemon.required' => 'Escolha um pokémon',
         'codigo.digits' => 'O código deve possuir 8 caracteres numéricos.',
         'codigo.unique' => 'Este código já existe.',
       ];
